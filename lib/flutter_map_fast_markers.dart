@@ -1,7 +1,5 @@
 library flutter_map_fast_markers;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/fast_markers_layer.dart';
+export 'src/fast_markers_layer_option.dart';
+export 'src/fast_markers_plugin.dart';
