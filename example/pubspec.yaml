@@ -12,6 +12,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_map_fast_markers:
+    path: '../'
 
 dev_dependencies:
   flutter_test:
