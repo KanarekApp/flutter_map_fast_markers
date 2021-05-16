@@ -5,6 +5,10 @@ import 'package:latlong2/latlong.dart';
 
 import 'fast_markers_layer_option.dart';
 
+extension on CustomPoint {
+  Offset toOffset() => Offset(this.x, this.y);
+}
+
 class FastMarker {
   final LatLng point;
   final double width;
@@ -141,18 +145,18 @@ class _FastMarkersPainter extends CustomPainter {
         _pxCache[i] = pxPoint;
       }
 
-      final width = marker.width - marker.anchor.left;
-      final height = marker.height - marker.anchor.top;
-      var sw = CustomPoint(pxPoint.x + width, pxPoint.y - height);
-      var ne = CustomPoint(pxPoint.x - width, pxPoint.y + height);
+      var topLeft = CustomPoint(
+          pxPoint.x - marker.anchor.left, pxPoint.y - marker.anchor.top);
+      var bottomRight =
+          CustomPoint(topLeft.x + marker.width, topLeft.y + marker.height);
 
-      if (!map.pixelBounds.containsPartialBounds(Bounds(sw, ne))) {
+      if (!map.pixelBounds
+          .containsPartialBounds(Bounds(topLeft, bottomRight))) {
         continue;
       }
 
-      final pos = pxPoint - map.getPixelOrigin();
-      // TODO: Rotating markers when they will have their own shapes
-      marker.onDraw(canvas, Offset(pos.x - width, pos.y - height));
+      // TODO: Rotating
+      marker.onDraw(canvas, (topLeft - map.getPixelOrigin()).toOffset());
     }
     _lastZoom = map.zoom;
   }
