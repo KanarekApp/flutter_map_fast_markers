@@ -43,17 +43,29 @@ class _MyHomePageState extends State<MyHomePage> {
     Future.microtask(() {
       var r = Random();
       for (var x = 0; x < maxMarkersCount; x++) {
-        final paint = Paint()..color = colors[r.nextInt(colors.length)];
+        final paint = Paint()
+          ..color = colors[r.nextInt(colors.length)]
+          ..strokeWidth = 2;
+        const width = 12.0, height = 12.0;
+        // Markers will randomly point at topLeft/bottomRight
+        final option = r.nextBool();
+        final anchor = option ? Anchor(0, 0) : Anchor(width, height);
         allMarkers.add(
           FastMarker(
             point: LatLng(
               doubleInRange(r, 37, 55),
               doubleInRange(r, -9, 30),
             ),
-            width: 3,
-            height: 3,
-            anchorPos: AnchorPos.align(AnchorAlign.center),
-            onDraw: (canvas, offset) => canvas.drawCircle(offset, 3, paint),
+            width: width,
+            height: height,
+            anchorPos: AnchorPos.exactly(anchor),
+            onDraw: (canvas, offset) {
+              final point = offset +
+                  (option ? Offset(0, 0) : Offset(anchor.left, anchor.top));
+              // Lines from bottomLeft and topRight to point (where anchor is)
+              canvas.drawLine(offset + Offset(width, 0), point, paint);
+              canvas.drawLine(offset + Offset(0, height), point, paint);
+            },
           ),
         );
       }
