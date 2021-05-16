@@ -5,85 +5,23 @@ import 'package:latlong2/latlong.dart';
 
 import 'fast_markers_layer_option.dart';
 
-class Anchor {
-  final double left;
-  final double top;
-
-  Anchor(this.left, this.top);
-
-  Anchor._(double width, double height, AnchorAlign alignOpt)
-      : left = _leftOffset(width, alignOpt),
-        top = _topOffset(height, alignOpt);
-
-  static double _leftOffset(double width, AnchorAlign alignOpt) {
-    switch (alignOpt) {
-      case AnchorAlign.left:
-        return 0.0;
-      case AnchorAlign.right:
-        return width;
-      case AnchorAlign.top:
-      case AnchorAlign.bottom:
-      case AnchorAlign.center:
-      default:
-        return width / 2;
-    }
-  }
-
-  static double _topOffset(double height, AnchorAlign alignOpt) {
-    switch (alignOpt) {
-      case AnchorAlign.top:
-        return 0.0;
-      case AnchorAlign.bottom:
-        return height;
-      case AnchorAlign.left:
-      case AnchorAlign.right:
-      case AnchorAlign.center:
-      default:
-        return height / 2;
-    }
-  }
-
-  factory Anchor.forPos(AnchorPos pos, double width, double height) {
-    if (pos == null) return Anchor._(width, height, null);
-    if (pos.value is AnchorAlign) return Anchor._(width, height, pos.value);
-    if (pos.value is Anchor) return pos.value;
-    throw Exception('Unsupported AnchorPos value type: ${pos.runtimeType}.');
-  }
-}
-
-class AnchorPos<T> {
-  AnchorPos._(this.value);
-
-  T value;
-
-  static AnchorPos exactly(Anchor anchor) => AnchorPos._(anchor);
-
-  static AnchorPos align(AnchorAlign alignOpt) => AnchorPos._(alignOpt);
-}
-
-enum AnchorAlign {
-  left,
-  right,
-  top,
-  bottom,
-  center,
-}
-
 class FastMarker {
   final LatLng point;
   final double width;
   final double height;
   final Anchor anchor;
+  final Function(Canvas canvas, Offset offset) onDraw;
 
+  // TODO: Rotating
   /// If true marker will be counter rotated to the map rotation
-  final bool rotate;
+  // final bool rotate;
 
   /// The origin of the coordinate system (relative to the upper left corner of
   /// this render object) in which to apply the matrix.
   ///
   /// Setting an origin is equivalent to conjugating the transform matrix by a
   /// translation. This property is provided just for convenience.
-  final Offset rotateOrigin;
+  // final Offset rotateOrigin;
 
   /// The alignment of the origin, relative to the size of the box.
   ///
@@ -97,15 +35,16 @@ class FastMarker {
   /// same as an [Alignment] whose [Alignment.x] value is `1.0` if
   /// [Directionality.of] returns	 [TextDirection.ltr], and `-1.0` if
   /// [Directionality.of] returns [TextDirection.rtl].
-  final AlignmentGeometry rotateAlignment;
+  // final AlignmentGeometry rotateAlignment;
 
   FastMarker({
-    this.point,
+    @required this.point,
     this.width = 30.0,
     this.height = 30.0,
-    this.rotate,
-    this.rotateOrigin,
-    this.rotateAlignment,
+    @required this.onDraw,
+    // this.rotate,
+    // this.rotateOrigin,
+    // this.rotateAlignment,
     AnchorPos anchorPos,
   }) : anchor = Anchor.forPos(anchorPos, width, height);
 }
@@ -213,9 +152,7 @@ class _FastMarkersPainter extends CustomPainter {
 
       final pos = pxPoint - map.getPixelOrigin();
       // TODO: Rotating markers when they will have their own shapes
-      final redPaint = Paint()..color = Colors.green;
-      canvas.drawCircle(
-          Offset(pos.x - width, pos.y - height), marker.width, redPaint);
+      marker.onDraw(canvas, Offset(pos.x - width, pos.y - height));
     }
     _lastZoom = map.zoom;
   }

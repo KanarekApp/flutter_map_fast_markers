@@ -39,9 +39,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    const colors = [Colors.red, Colors.orange, Colors.yellow, Colors.green];
     Future.microtask(() {
       var r = Random();
       for (var x = 0; x < maxMarkersCount; x++) {
+        final paint = Paint()..color = colors[r.nextInt(colors.length)];
         allMarkers.add(
           FastMarker(
             point: LatLng(
@@ -50,6 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             width: 3,
             height: 3,
+            anchorPos: AnchorPos.align(AnchorAlign.center),
+            onDraw: (canvas, offset) => canvas.drawCircle(offset, 3, paint),
           ),
         );
       }
