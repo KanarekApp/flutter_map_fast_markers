@@ -15,14 +15,19 @@ which is *way faster* 🚀
     final redPaint = Paint()
       ..color = Colors.red
       ..style = PaintingStyle.fill;
+    const width = 16, height = 16;
     final markers = [
       FastMarker(
         point: LatLng(49.8828, 19.4930),
-        width: 16,
-        height: 16,
+        width: width,
+        height: height,
         anchorPos: AnchorPos.align(AnchorAlign.center),
         onDraw: (canvas, offset) {
-          canvas.drawCircle(offset+Offset(8, 8), 16, redPaint);
+          canvas.drawCircle(
+            offset + Offset(width / 2, height / 2),  // The center
+            width / 2,  // Radius
+            redPaint,
+          );
         },
       ),
     ];
