@@ -32,6 +32,9 @@ which is *way faster* 🚀
     ```
    The `onDraw` method is where the magic happens - you get a `canvas` to draw on, and `offset` that tells you *where*
    to draw. `offset` is a location of upper-left corner of the rectangle where you should draw
+   
+   ![onDraw explanation](https://user-images.githubusercontent.com/40139196/118564102-013e1c80-b770-11eb-94da-b15d13c4d861.jpg)
+
 
    "Should" - that's a good word, because while having access to full `canvas`, you *could* draw anywhere you want...
    **Do not** do this! The plugin doesn't draw markers that are not currently visible on screen, so your markers will
