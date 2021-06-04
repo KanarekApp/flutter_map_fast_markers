@@ -1,8 +1,8 @@
 name: flutter_map_fast_markers
-description: A new Flutter package project.
-version: 0.0.1
+description:  Faster markers for flutter_map
+version: 0.0.2
 author:
-homepage:
+homepage: "https://github.com/KanarekApp/flutter_map_fast_markers"
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -14,8 +14,8 @@ dependencies:
   flutter_map:
     # TODO: Change tu pub-hosted
     git:
-      url: https://github.com/fleaflet/flutter_map
-      ref: master
+      url: "https://github.com/KanarekApp/flutter_map"
+      ref: fast_markers_help
 
 dev_dependencies:
   flutter_test:

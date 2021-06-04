@@ -66,6 +66,9 @@ class _MyHomePageState extends State<MyHomePage> {
               canvas.drawLine(offset + Offset(width, 0), point, paint);
               canvas.drawLine(offset + Offset(0, height), point, paint);
             },
+            onTap: () {
+              print("Marker $x tapped");
+            },
           ),
         );
       }

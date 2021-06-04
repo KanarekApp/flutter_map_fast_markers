@@ -66,9 +66,9 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: master
-      resolved-ref: "38d9047ac6daff0948f70cffe1bba5132da0d170"
-      url: "https://github.com/fleaflet/flutter_map"
+      ref: fast_markers_help
+      resolved-ref: "440e2205c562aa689b5db33d23d22d139254e1a2"
+      url: "https://github.com/KanarekApp/flutter_map"
     source: git
     version: "0.12.0"
   flutter_map_fast_markers:
@@ -77,7 +77,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.0.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter

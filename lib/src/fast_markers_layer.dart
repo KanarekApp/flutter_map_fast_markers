@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart';
@@ -15,6 +17,7 @@ class FastMarker {
   final double height;
   final Anchor anchor;
   final Function(Canvas canvas, Offset offset) onDraw;
+  final Function() onTap;
 
   // TODO: Rotating
   /// If true marker will be counter rotated to the map rotation
@@ -46,6 +49,7 @@ class FastMarker {
     this.width = 30.0,
     this.height = 30.0,
     @required this.onDraw,
+    this.onTap,
     // this.rotate,
     // this.rotateOrigin,
     // this.rotateAlignment,
@@ -87,6 +91,7 @@ class _FastMarkersLayerState extends State<FastMarkersLayer> {
       widget.map,
       widget.layerOptions,
     );
+    widget.map.onTapRaw = (p) => painter.onTap(p.relative);
   }
 
   @override
@@ -100,14 +105,18 @@ class _FastMarkersLayerState extends State<FastMarkersLayer> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<int>(
-      stream: widget.stream, // a Stream<int> or null
-      builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-        return CustomPaint(
-          painter: painter,
-          willChange: true,
-        );
-      },
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: StreamBuilder<int>(
+        stream: widget.stream, // a Stream<int> or null
+        builder: (BuildContext context, snapshot) {
+          return CustomPaint(
+            painter: painter,
+            willChange: true,
+          );
+        },
+      ),
     );
   }
 }
@@ -115,6 +124,7 @@ class _FastMarkersLayerState extends State<FastMarkersLayer> {
 class _FastMarkersPainter extends CustomPainter {
   final MapState map;
   final FastMarkersLayerOptions options;
+  final List<MapEntry<Bounds, FastMarker>> markersBoundsCache = [];
   var _lastZoom = -1.0;
 
   _FastMarkersPainter(this.map, this.options) {
@@ -136,6 +146,7 @@ class _FastMarkersPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final sameZoom = map.zoom == _lastZoom;
+    markersBoundsCache.clear();
     for (var i = 0; i < options.markers.length; i++) {
       var marker = options.markers[i];
 
@@ -155,10 +166,25 @@ class _FastMarkersPainter extends CustomPainter {
         continue;
       }
 
+      final pos = (topLeft - map.getPixelOrigin());
       // TODO: Rotating
-      marker.onDraw(canvas, (topLeft - map.getPixelOrigin()).toOffset());
+      marker.onDraw(canvas, pos.toOffset());
+      markersBoundsCache.add(
+        MapEntry(
+          Bounds(pos, pos + CustomPoint(marker.width, marker.height)),
+          marker,
+        ),
+      );
     }
     _lastZoom = map.zoom;
+  }
+
+  void onTap(Offset pos) {
+    final marker = markersBoundsCache.reversed.firstWhere(
+      (e) => e.key.contains(CustomPoint(pos.dx, pos.dy)),
+      orElse: () => null,
+    );
+    marker?.value?.onTap?.call();
   }
 
   @override
