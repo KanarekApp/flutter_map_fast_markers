@@ -1,5 +1,5 @@
 # flutter_map_fast_markers
-A faster solution for Markers in flutter_map when you need *a lot* of them
+A [blazing-fast](https://twitter.com/acdlite/status/974390255393505280) solution for Markers in flutter_map when you need *a lot* of them
 
 ## Why?
 Original `flutter_map` Markers are cool if you use ~200 of them. You give them a builder with standard Flutter widget,
@@ -29,6 +29,7 @@ which is *way faster* 🚀
             redPaint,
           );
         },
+        onTap: () => print("Marker was tapped!"),
       ),
     ];
     ```
