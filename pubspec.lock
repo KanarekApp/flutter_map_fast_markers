@@ -67,7 +67,7 @@ packages:
     description:
       path: "."
       ref: fast_markers_help
-      resolved-ref: "440e2205c562aa689b5db33d23d22d139254e1a2"
+      resolved-ref: "4eb25e2c6b5d2b986916d167def2e7115b670703"
       url: "https://github.com/KanarekApp/flutter_map"
     source: git
     version: "0.12.0"

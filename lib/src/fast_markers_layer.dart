@@ -179,12 +179,17 @@ class _FastMarkersPainter extends CustomPainter {
     _lastZoom = map.zoom;
   }
 
-  void onTap(Offset pos) {
+  bool onTap(Offset pos) {
     final marker = markersBoundsCache.reversed.firstWhere(
       (e) => e.key.contains(CustomPoint(pos.dx, pos.dy)),
       orElse: () => null,
     );
-    marker?.value?.onTap?.call();
+    if (marker != null) {
+      marker.value?.onTap();
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @override
