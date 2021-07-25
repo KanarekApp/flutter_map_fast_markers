@@ -8,7 +8,13 @@ class FastMarkersPlugin extends MapPlugin {
   @override
   Widget createLayer(
       LayerOptions options, MapState mapState, Stream<Null> stream) {
-    return FastMarkersLayer(options, mapState, stream);
+    if (supportsLayer(options)) {
+      return FastMarkersLayer(
+          options as FastMarkersLayerOptions, mapState, stream);
+    } else {
+      throw FormatException(
+          'FastMarkersPlugin required FastMarkersLayers to operate on.');
+    }
   }
 
   @override
