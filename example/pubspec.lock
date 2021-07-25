@@ -58,9 +58,11 @@ packages:
   flutter_map:
     dependency: transitive
     description:
-      name: flutter_map
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: fast_markers_help
+      resolved-ref: "51ae5ad0f8cd38b817a82371f022fe15d8a0ea2b"
+      url: "https://github.com/KanarekApp/flutter_map"
+    source: git
     version: "0.13.1"
   flutter_map_fast_markers:
     dependency: "direct main"

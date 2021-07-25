@@ -11,7 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_map: ^0.13.1
+  flutter_map:
+    git:
+      url: "https://github.com/KanarekApp/flutter_map"
+      ref: fast_markers_help
 
 dev_dependencies:
   flutter_test:

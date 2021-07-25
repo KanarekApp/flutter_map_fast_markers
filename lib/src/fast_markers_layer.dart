@@ -95,8 +95,12 @@ class _FastMarkersLayerState extends State<FastMarkersLayer> {
       widget.map,
       widget.layerOptions,
     );
-    //TODO: Fix it
-    widget.map.onTapRaw = (p) => painter?.onTap(p.relative);
+    widget.map.onTapRaw = (p) {
+      if (p.relative != null) {
+        return painter?.onTap(p.relative!) ?? false;
+      }
+      return false;
+    };
   }
 
   @override
