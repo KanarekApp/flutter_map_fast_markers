@@ -14,7 +14,7 @@ dependencies:
   flutter_map:
     git:
       url: "https://github.com/KanarekApp/flutter_map"
-      ref: fast_markers_help
+      ref: canary
 
 dev_dependencies:
   flutter_test:
