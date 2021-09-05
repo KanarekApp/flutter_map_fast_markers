@@ -59,7 +59,7 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: fast_markers_help_v2
+      ref: fast_markers_help
       resolved-ref: af2b46c628b6644adfccb3b5026797a9910a0041
       url: "https://github.com/KanarekApp/flutter_map"
     source: git
