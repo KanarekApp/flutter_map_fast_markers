@@ -109,8 +109,8 @@ class _FastMarkersLayerState extends State<FastMarkersLayer> {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      child: StreamBuilder<int>(
-        stream: widget.stream as Stream<int>?, // a Stream<int> or null
+      child: StreamBuilder(
+        stream: widget.stream,
         builder: (BuildContext context, snapshot) {
           return CustomPaint(
             painter: painter,
