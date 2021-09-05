@@ -34,11 +34,11 @@ class FastMarkersLayerOptions extends LayerOptions {
   // final AlignmentGeometry rotateAlignment;
 
   FastMarkersLayerOptions({
-    Key key,
+    Key? key,
     this.markers = const [],
     // this.rotate = false,
     // this.rotateOrigin,
     // this.rotateAlignment = Alignment.center,
-    Stream<Null> rebuild,
+    Stream<Null>? rebuild,
   }) : super(key: key, rebuild: rebuild);
 }
