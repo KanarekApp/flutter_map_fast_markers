@@ -64,7 +64,7 @@ class MarkerLayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mapState = MapState.of(context);
+    final mapState = MapState.maybeOf(context);
     return FastMarkersLayer(options, mapState, mapState.onMoved);
   }
 }
